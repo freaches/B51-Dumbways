@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <title>Contact Me</title>
+        <link href="./assets/css/style.css" rel="stylesheet">
+        <link href="./assets/css/contact-me.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <nav>
+            <div class="nav-left">
+                <ul>
+                    <img src="./assets/image/logo.png"/>
+                    <li>
+                        <a href="./index.html">Home</a>
+                    </li>
+                    <li>
+                        <a href="">Blog</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-right">
+                <a href="./contact-me.html">Contact me</a>
+            </div>
+
+        </nav>
+
+        <form>
+            <h1 style="text-align: center;">Get In Touch</h1>
+            <div>
+                <label for="name">Name</label>
+                <input type="text" id="name" placeholder="Your Name" required/>
+            </div>
+
+            <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Your Email" required/>
+            </div>
+
+            <div>
+                <label for="phone">Phone Number</label>
+                <input type="text" id="phone" placeholder="Your Phone number"required/>
+            </div>
+
+            <div>
+                <label for="subject">Subject</label>
+                <Select id="subject" required>
+                    <option value="" hidden></option>
+                    <option>Frontend Developer</option>
+                    <option>Backend Developer</option>
+                    <option>Fullstack</option>
+                </Select>
+            </div>
+
+            <div>
+                <label for="message">Message</label>
+                <textarea id="message" placeholder="Enter Your Message" require></textarea>
+            </div>
+            <div>
+                <button type="button" onclick="getData()">Submit</button>
+            </div>
+            
+        </form>
+    </body>
+    <script src="assets/js/contact-me.js"></script>
+</html>

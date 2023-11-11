@@ -94,16 +94,17 @@ button {
     background-color: white;
     padding: 20px;
 }
-
-.judul {
-    text-align: center;
-}
+    
 
 .project .projectBody hr {
     border: 1px solid black;
     width: 80%;
     margin-right: auto;
     margin-left: auto;
+}
+
+.judul {
+    text-align: center;
 }
 
 .project .projectBody .project-list {

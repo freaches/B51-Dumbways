@@ -13,8 +13,27 @@ let myProject =[{
     image : "./assets/image/makanan.jpg"
 }]
 
+let days =""
+let months = ""
+
+function waktu (awal,akhir){
+    let dataStart = new Date (awal)
+    let dataEnd = new Date (akhir)
+    let oneDay = 1000 * 3600 * 24
+
+    let selisih = dataEnd.getTime() - dataStart.getTime()
+    let totaldays = selisih/oneDay
+    let totalmonths = Math.floor (totaldays/30)
+        // totaldays = totaldays % 30 
+
+    days = totaldays
+    months = totalmonths
+}
+
 function isiProject(event) {
     event.preventDefault()
+
+    let duration
 
     let projectName = document.getElementById("my-project").value
     let awalWaktu = document.getElementById("awal").value
@@ -35,17 +54,31 @@ function isiProject(event) {
       } else if(description == "") {
         return alert("Deskripsi harus di isi") 
       } else if(image == "") {
-        return alert("image harus di isi") 
+        return alert("image harus di isi")
       }
     
     image = URL.createObjectURL (image[0])
+
+    waktu(awalWaktu,akhirWaktu)
+
+    if(months < 1) {
+        duration = `${days} Hari`
+    } else {
+        duration = `${months} Bulan`
+    }
 
     const data =  {
         projectName,
         awalWaktu,
         akhirWaktu,
         description,
-        duration : "1 Bulan",
+        days,
+        months,
+        duration,
+        usingNode,
+        usingReact,
+        usingNext,
+        usingType,
         image
     }
 
@@ -58,23 +91,41 @@ function isiProject(event) {
 function renderMyProject() {
 
     document.getElementById("contents").innerHTML =""
-     
+    
     for (let i = 0 ; i < myProject.length ; i++){
         document.getElementById("contents").innerHTML += `<div class="project-list-items">
         <img src="${myProject[i].image}" alt="makan"/>
-        <h1><a href="my-project-detail.html" target="_blank">${myProject[i].projectName}</a></h1>
+        <h2><a href="my-project-detail.html/" target="_blank">${myProject[i].projectName}</a></h1>
         <p style="font-size: 15px; color: grey;">Durasi : ${myProject[i].duration}</p>
         <p>
         ${myProject[i].description}
         </p>
         
-        <i class="fa-brands fa-node-js"></i>    
-        <i class="fa-brands fa-react"></i>
-        <i class="fa-brands fa-vuejs"></i>
-        <i class="fa-brands fa-js"></i>
+        ${renderIcon(myProject[i])}
         <div class="edit">
             <button>Edit</button>
             <button>Delete</button>
         </div>`
     }
+
+    
+}
+
+function renderIcon(icon) {
+    let renderImage = ""
+
+    if (icon.usingNode == true){
+        renderImage += `<i class="fa-brands fa-node-js"></i>`
+    }
+    if (icon.usingNext == true){
+        renderImage += `<i class="fa-brands fa-react"></i>`
+    }
+    if (icon.usingReact == true){
+        renderImage += `<i class="fa-brands fa-vuejs"></i>`
+    }
+    if (icon.usingType == true){
+        renderImage += `<i class="fa-brands fa-js"></i>`
+    }
+    
+    return renderImage
 }

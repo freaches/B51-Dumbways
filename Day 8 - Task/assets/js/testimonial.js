@@ -12,10 +12,10 @@ const dataTestimonial = [
         image : "https://images.unsplash.com/photo-1625019030820-e4ed970a6c95?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80"
     },
     {
-        name : "Celeng",
+        name : "Mulan",
         comment : "Bang udah Bang",
         rating : 1,
-        image : "Assets/Image/chelsea.jpeg"
+        image : "https://images.unsplash.com/photo-1607607148470-51131ea28dea?q=80&w=1401&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     // {
     //     name : "Mercon",

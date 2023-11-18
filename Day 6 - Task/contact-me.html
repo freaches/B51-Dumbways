@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <title>Contact Me</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="./assets/css/style.css" rel="stylesheet">
+        <link href="./assets/css/contact-me.css" rel="stylesheet">
+        <link href="./assets/css/mobile.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+
+    <body>
+        <nav>
+            <div class="nav-left">
+                <ul>
+                    <img src="./assets/image/logo.png"/>
+                    <li>
+                        <a href="./index.html" class="item-gone">Home</a>
+                    </li>
+                    <li>
+                        <a href="my-project.html" class="item-gone">My Project</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="nav-right">
+                <a href="./contact-me.html" class="item-gone">Contact me</a>
+            </div>
+            <div class="nav-right" id="bars-menu">
+                <button class="menu-button" onclick="openMenu()">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </nav>
+
+        <div class="menu-container" id="menu-container">
+            <a href="./index.html" class="home-button">Home</a>
+            <a href="./my-project.html">My Project</a>
+            <a href="./contact-me.html">Contact Me</a>
+        </div>
+
+        <form class="container-form">
+            <h1 style="text-align: center;">Get In Touch</h1>
+            <div>
+                <label for="name">Name</label>
+                <input type="text" id="name" placeholder="Your Name" required/>
+            </div>
+
+            <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Your Email" required/>
+            </div>
+
+            <div>
+                <label for="phone">Phone Number</label>
+                <input type="text" id="phone" placeholder="Your Phone number"required/>
+            </div>
+
+            <div>
+                <label for="subject">Subject</label>
+                <Select id="subject" required>
+                    <option value="" hidden></option>
+                    <option>Frontend Developer</option>
+                    <option>Backend Developer</option>
+                    <option>Fullstack</option>
+                </Select>
+            </div>
+
+            <div>
+                <label for="message">Message</label>
+                <textarea id="message" placeholder="Enter Your Message" require></textarea>
+            </div>
+            <div>
+                <button type="button" onclick="getData()">Submit</button>
+            </div>
+            
+        </form>
+    </body>
+    <script src="assets/js/contact-me.js"></script>
+    <script src="assets/js/button.js"></script>
+</html>

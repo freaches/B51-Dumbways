@@ -1,0 +1,62 @@
+h1 {
+    text-align: center;
+    padding: 5% 0;  
+}
+
+.list-testimonial {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin: 10px;
+}
+
+.testimonial {
+    display: flex;
+    width: 25%;
+    margin : 2%;
+    padding: 2%;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #cdcdcd;
+    flex-direction: column;
+    background-color: white;
+    /* justify-content: space-around; */
+}
+
+.testimonial img {
+    width: 100%;
+    height: 200px;
+    border-radius: 3px;
+    object-fit: cover;
+}
+
+.testimonial .author {
+    text-align: right;
+    font-weight: bold;
+}
+
+.testimonial .quote {
+    line-height: normal;
+    font-style: italic;
+    text-align: right;
+}
+
+.testimonial .star {
+    text-align: right;
+}
+
+.container .rating-container .rating button i {
+    color: white;
+}
+
+@media only screen and (max-width: 900px) {
+    .testimonial {
+        width: 40%;
+    }
+}
+
+
+@media only screen and (max-width: 700px) {
+    .testimonial {
+        width: 100%;
+    }
+}

@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>Project-1</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="./assets/css/style.css" rel="stylesheet">
         <link href="./assets/css/project.css" rel="stylesheet">
         <link href="./assets/css/mobile.css" rel="stylesheet">
@@ -13,20 +14,29 @@
                 <ul>
                     <img src="./assets/image/logo.png"/>
                     <li>
-                        <a href="./index.html">Home</a>
+                        <a href="./index.html" class="item-gone">Home</a>
                     </li>
                     <li>
-                        <a href="my-project.html">My Project</a>
+                        <a href="my-project.html" class="item-gone">My Project</a>
                     </li>
                 </ul>
             </div>
 
             <div class="nav-right">
-                <a href="./contact-me.html">Contact me</a>
+                <a href="./contact-me.html" class="item-gone">Contact me</a>
             </div>
-
+            <div class="nav-right" id="bars-menu">
+                <button class="menu-button" onclick="openMenu()">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
         </nav>
 
+        <div class="menu-container" id="menu-container">
+            <a href="./index.html" class="home-button">Home</a>
+            <a href="./my-project.html">My Project</a>
+            <a href="./contact-me.html">Contact Me</a>
+        </div>
 
         <div class="project">
             <div class="project-form">
@@ -115,4 +125,5 @@
         </div>
     </body>
     <script src="assets/js/project.js"></script>
+    <script src="assets/js/button.js"></script>
 </html>

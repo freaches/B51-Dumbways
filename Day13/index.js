@@ -3,6 +3,10 @@ const path = require('path')
 const app = express()
 const port = 5000
 
+const config = require('./src/config/config.json')
+const { Sequelize, QueryTypes } = require("sequelize")
+const sequelize = new Sequelize(config.development)
+
 
 app.set ('view engine', 'hbs')
 app.set ('views', path.join(__dirname, 'src/views'))
@@ -52,12 +56,27 @@ app.listen(port, () => {
     console.log ("Server running on port 5000")
 })
 
-function home (req, res) {
-    res.render('index' , {content : project})
+async function home (req, res) {
+    try{
+        const query = `SELECT * FROM projects`
+        let obj = await sequelize.query(query, { type: QueryTypes.SELECT })
+
+        obj.forEach(item => {
+            item.duration = waktu(item.start_date, item.end_date)
+            item.techs = viewIcon(item.technologies)  
+        })
+
+        console.log(obj)
+        res.render('index' , {content : obj})
+    } catch(err) {
+        console.log(err)
+    }
 }
+
 function testimonial (req, res) {
     res.render('testimonial')
 }
+
 function contactMe (req, res) {
     res.render('contact-me')
 }
@@ -215,17 +234,16 @@ function viewIcon (icon) {
 
     let codeIcon = ""
 
-    if (icon.node) {
-        codeIcon += `<i class="fa-brands fa-node-js"></i>`
-    }
-    if (icon.react) {
-        codeIcon += `<i class="fa-brands fa-react"></i>`
-    }
-    if (icon.next) {
-        codeIcon += `<i class="fa-brands fa-vuejs"></i>`
-    }
-    if (icon.script) {
-        codeIcon += `<i class="fa-brands fa-js"></i>`  
+    for (i=0; i<icon.length; i++){
+        if (icon[i] == "Node Js") {
+            codeIcon += `<i class="fa-brands fa-node-js"></i>`
+        } else if (icon[i] == "React Js") {
+            codeIcon += `<i class="fa-brands fa-react"></i>`
+        } else if (icon[i] == "Next Js") {
+            codeIcon += `<i class="fa-brands fa-vuejs"></i>`
+        } else if (icon[i] == "Type Script") {
+            codeIcon += `<i class="fa-brands fa-js"></i>`  
+        }
     }
 
     return codeIcon
@@ -235,17 +253,16 @@ function viewIconHbs (icon) {
 
     let codeIcon = ""
 
-    if (icon.node) {
-        codeIcon += `<i class="fa-brands fa-node-js mb-3">&nbsp Node js</i>`
-    }
-    if (icon.react) {
-        codeIcon += `<i class="fa-brands fa-react mb-3">&nbsp React js</i>`
-    }
-    if (icon.next) {
-        codeIcon += `<i class="fa-brands fa-vuejs mb-3">&nbsp Next js</i>`
-    }
-    if (icon.script) {
-        codeIcon += `<i class="fa-brands fa-js mb-3">&nbsp Type Script</i>`  
+    for (i=0; i<icon.length; i++){
+        if (icon[i] == "Node Js") {
+            codeIcon += `<i class="fa-brands fa-node-js">&nbsp Node js</i>`
+        } else if (icon[i] == "React Js") {
+            codeIcon += `<i class="fa-brands fa-react">&nbsp React js</i>`
+        } else if (icon[i] == "Next Js") {
+            codeIcon += `<i class="fa-brands fa-vuejs">>&nbsp Next js</i>`
+        } else if (icon[i] == "Type Script") {
+            codeIcon += `<i class="fa-brands fa-js">&nbsp Type Script js</i>`  
+        }
     }
 
     return codeIcon

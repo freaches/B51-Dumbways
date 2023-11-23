@@ -1,9 +1,10 @@
 <html>
     <head>
-        <title>Project-Detail</title>
+        <title>Testimonial</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- <link href="./Assets/css/style.css" rel="stylesheet" />
-        <link rel="stylesheet" href="./Assets/css/mobile.css" /> -->
+        <link href="./Assets/css/style.css" rel="stylesheet" />
+        <!-- <link rel="stylesheet" href="./Assets/css/mobile.css" />
+        <link rel="stylesheet" href="./Assets/css/testimonial.css" /> -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
@@ -28,7 +29,7 @@
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container">
               <a class="navbar-brand me-5" href="/">
-                <img src="/image/logo.png" alt="logo"/>   
+                <img src="image/logo.png" alt="logo"/>   
               </a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -52,31 +53,45 @@
             </div>
         </nav>
 
-        <div class="container-fluid bg-secondary-subtle p-5">
-          <div class="rounded bg-light p-5">
-              <h1 class="text-center mb-4">{{data.title}} || {{data.id}}</h1>
-              <div class="d-flex flex-wrap mb-5 justify-content-evenly">
-                  <img src="/image/makanan.jpg" alt="makan" class="w-50"/>
-                  <div>
-                      <h2>Duration</h2>
-                      <div class="mb-4">
-                          <i class="fa-regular fa-calendar-days">&nbsp {{data.start_date}} - {{data.end_date}}</i><br><br>
-                          <i class="fa-regular fa-clock">&nbsp {{data.duration}}</i>
-                      </div>
-                      <h2>Technologies</h2>
-                      <div class="d-flex flex-wrap justify-content-between" style="width: 60%;">
-                        {{{data.technologies}}}
-                      </div>
+        <div class="container m-5">
+            <h1 class="text-center mb-5">My Testimonial</h1>
+            <div class="text-center align-content-center d-flex flex-column justify-content-center text-center">
+                <h2 class="mb-3">Rating by star</h2>
+                <div class="d-flex flex-wrap justify-content-evenly p-5 center">
+                    <button onclick="showTestimonial()" class="rounded bg-danger px-3">All</button>
+                    <button onclick="filterTestimonial(1)" class="rounded bg-danger px-3">
+                        1 <i class="fa-solid fa-star text-light"></i>
+                    </button>
+                    <button onclick="filterTestimonial(2)" class="rounded bg-danger px-3">
+                        2 <i class="fa-solid fa-star text-light"></i>
+                    </button>
+                    <button onclick="filterTestimonial(3)" class="rounded bg-danger px-3">
+                        3 <i class="fa-solid fa-star text-light"></i>
+                    </button>
+                    <button onclick="filterTestimonial(4)" class="rounded bg-danger px-3">
+                        4 <i class="fa-solid fa-star text-light"></i>
+                    </button>
+                    <button onclick="filterTestimonial(5)" class="rounded bg-danger px-3">
+                        5 <i class="fa-solid fa-star text-light"></i>
+                    </button>
+                </div>
 
-                  </div>
-                  
-              </div>
-          <p class="p-3">
-            {{data.desc}}
-          </p>
+            </div>
+
+            
+            <hr class="line"/>
+            
+            <section class="container d-flex flex-wrap justify-content-evenly" id="list-testimonial">
+                <!-- <div class="w-25 bg-secondary-subtle p-3 rounded text-end">
+                    <img src="./Assets/Image/Gambar.jpg" class="w-100 mb-3"/>
+                    <p class="fst-italic">"Bang udah Bang"</p>
+                    <p class="fw-bold">Average Fans Chelsea</p>
+                    <p> 5 <i class="fa-solid fa-star "></i></p>
+                </div> -->
+            </section>
         </div>
-      </div>
     </body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="js/button.js"></script>
+    <script src="js/testimonial-ajax.js"></script>
 </html>

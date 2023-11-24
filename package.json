@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon Day12/index.js"
+    "start": "nodemon Day13/index.js"
   },
   "author": "Denis",
   "license": "ISC",

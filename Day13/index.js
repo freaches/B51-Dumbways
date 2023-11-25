@@ -27,9 +27,6 @@ app.post('/delete-project/:id',deleteProject)
 app.get('/edit-project/:id',editProjectView)
 app.post('/edit-project',editProject)
 
-let days =""
-let months = ""
-
 const project = [{
     title : "Mukbangs gomang",
     images : "/image/makanan.jpg",
@@ -259,9 +256,9 @@ function viewIconHbs (icon) {
         } else if (icon[i] == "React Js") {
             codeIcon += `<i class="fa-brands fa-react">&nbsp React js</i>`
         } else if (icon[i] == "Next Js") {
-            codeIcon += `<i class="fa-brands fa-vuejs">>&nbsp Next js</i>`
+            codeIcon += `<i class="fa-brands fa-vuejs">&nbsp Next js</i>`
         } else if (icon[i] == "Type Script") {
-            codeIcon += `<i class="fa-brands fa-js">&nbsp Type Script js</i>`  
+            codeIcon += `<i class="fa-brands fa-js">&nbsp Type Script</i>`  
         }
     }
 

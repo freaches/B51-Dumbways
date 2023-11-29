@@ -76,7 +76,7 @@
           <div class="rounded bg-light p-5">
               <h1 class="text-center mb-4">{{content.title}} || {{content.id}}</h1>
               <div class="d-flex flex-wrap mb-5 justify-content-evenly">
-                  <img src="/image/{{content.image}}" alt="makan" class="w-50"/>
+                  <img src="/{{content.image}}" alt="makan" class="w-50"/>
                   <div>
                       <h2>Duration</h2>
                       <div class="mb-4">
@@ -90,6 +90,7 @@
                   </div>
                   
               </div>
+          <p class="fw-lighter fst-italic fs-6 px-3">Author : {{content.author}}</p>
           <p class="p-3">
             {{content.description}}
           </p>

@@ -3,6 +3,10 @@ const path = require('path')
 const app = express()
 const port = 5000
 
+const bcrypt = require('bcrypt')
+const session = require('express-session')
+const flash = require('express-flash')
+
 const config = require('./src/config/config.json')
 const { Sequelize, QueryTypes } = require("sequelize")
 const sequelize = new Sequelize(config.development)
@@ -15,6 +19,21 @@ app.set ('views', path.join(__dirname, 'src/views'))
 app.use(express.static(path.join(__dirname, 'src/assets')))
 app.use(express.urlencoded({ extended : false}))
 
+app.use(flash())
+
+app.use(session({
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      maxAge: 1000 * 60 * 60 * 2
+    },
+    store: new session.MemoryStore(),
+    saveUninitialized: true,
+    resave: false,
+    secret: 'kingking'
+  })
+)
+
 app.get('/', home)
 app.get('/testimonial',testimonial)
 app.get('/contact-me',contactMe)
@@ -26,6 +45,17 @@ app.post('/add-my-project',addMyProject)
 app.post('/delete-project/:id',deleteProject)
 app.get('/edit-project/:id',editProjectView)
 app.post('/edit-project/:id',editProject)
+
+app.get('/register', formRegister)
+app.post('/register', addUser)
+app.get('/login', formLogin)
+app.post('/login', userLogin)
+app.get('/logout',userLogout)
+
+app.use((req, res, next) => { 
+    res.status(404).send( 
+        "<h1>Page not found on the server</h1>") 
+}) 
 
 
 app.listen(port, () => {
@@ -41,23 +71,29 @@ async function home (req, res) {
             item.duration = waktu(item.start_date, item.end_date)
             item.techs = viewIcon(item.technologies)  
             item.description = cardDesc(item.description)
+            item.isLogin = req.session.isLogin
         })
-        
+
         let sortedObj = obj.sort((c1, c2) => (c1.id < c2.id) ? 1 : (c1.id > c2.id) ? -1 : 0);
 
         console.log(sortedObj)
-        res.render('index' , {content : sortedObj})
+
+        res.render('index' , {content : sortedObj,
+            isLogin: req.session.isLogin,
+            user: req.session.user})
     } catch(err) {
         console.log(err)
     }
 }
 
 function testimonial (req, res) {
-    res.render('testimonial')
+    res.render('testimonial', {isLogin: req.session.isLogin,
+        user: req.session.user})
 }
 
 function contactMe (req, res) {
-    res.render('contact-me')
+    res.render('contact-me', {isLogin: req.session.isLogin,
+        user: req.session.user})
 }
 
 async function myProject (req, res) {
@@ -75,21 +111,29 @@ async function myProject (req, res) {
         })  
 
         console.log(obj)
-        res.render('my-project-detail' , {content : obj[0]})
+        res.render('my-project-detail' , {content : obj[0],
+            isLogin: req.session.isLogin,
+            user: req.session.user})
     } catch(err) {
         console.log(err)
     }
 }
 
 function formMyProject (req, res) {
-    res.render('add-my-project')
+    const isLogin = req.session.isLogin
+
+    if(!isLogin){
+        req.flash('danger', "Anda tidak mempunyai akses ini!")
+        return res.redirect('/')
+    }
+
+    res.render('add-my-project',{isLogin,
+        user: req.session.user})
 }
 
 async function addMyProject (req, res) {
     try{
-    
     let image = "jotaro.jpg"
-    
     
     let { title, start_date, end_date, description, node, react, next, script} = req.body
     console.log(title)
@@ -110,7 +154,6 @@ async function addMyProject (req, res) {
     await sequelize.query(query)
 
     res.redirect('/')
-
     } catch(error){
         console.log(error)
     }
@@ -133,8 +176,20 @@ async function editProjectView (req, res) {
     try{
         const { id } = req.params
 
+        const isLogin = req.session.isLogin
+
+        if(!isLogin){
+            req.flash('danger', "Anda tidak mempunyai akses ini!")
+            return res.redirect('/')
+        }
+
         const query = `SELECT * FROM projects WHERE id =${id}`
         let obj = await sequelize.query(query, { type: QueryTypes.SELECT })
+
+        if(!obj.length) {
+            req.flash('danger', "Data Not Found!!")
+            return res.redirect('/')
+        }
         
         obj.forEach( item  =>{
             let array = item.technologies
@@ -158,7 +213,8 @@ async function editProjectView (req, res) {
         })
         console.log(obj)
 
-        res.render('edit-my-project',{content : obj[0]})
+        res.render('edit-my-project',{content : obj[0], isLogin: req.session.isLogin,
+            user: req.session.user})
     } catch(error){
         console.log(error)
     }
@@ -188,7 +244,7 @@ async function editProject (req, res) {
         
         const query = `UPDATE projects 
         SET title = '${title}', start_date = '${start_date}', end_date = '${end_date}', image = '${image}', description = '${description}', 
-        technologies =  ARRAY[${technologies}], "updatedAt" = NOW() WHERE ID=${id}`
+        technologies =  ARRAY[${technologies}], "createdAt" = NOW(), "updatedAt" = NOW() WHERE ID=${id}`
         
         await sequelize.query(query)
     
@@ -197,6 +253,96 @@ async function editProject (req, res) {
         } catch(error){
             console.log(error)
         }
+}
+
+function formRegister(req, res) {
+
+    const isLogin = req.session.isLogin
+
+    if(isLogin){
+        req.flash('danger', "Anda sudah masuk ke akun anda!")
+        return res.redirect('/')
+    }
+
+    res.render('register', {isLogin: req.session.isLogin,
+        user: req.session.user})
+}
+
+async function addUser(req, res) {
+    try {
+    const { name, email, password } = req.body
+
+    if(req.body.name == "" || req.body.email == "" || req.body.password == ""){
+        req.flash('danger', 'Data Kosong! Tolong isikan data ada pada form Register!')
+        return res.redirect('/register')
+    }
+
+    const queryEmail = `SELECT * FROM users WHERE email = '${email}'`
+    let obj = await sequelize.query(queryEmail, { type: QueryTypes.SELECT })
+
+    if(obj.length){
+        req.flash('danger', "Email sudah terpakai! Masukan email yang lain")
+        return res.redirect('/register')
+    }
+
+
+    await bcrypt.hash(password, 10, (err, hashPassword) => {
+    
+    const query = `INSERT INTO users (name, email, password, "createdAt", "updatedAt") VALUES ('${name}', '${email}', '${hashPassword}', NOW(), NOW())`    
+    sequelize.query(query)})
+    
+    req.flash('success', 'Register Berhasil! Silakan Login')
+    res.redirect('/login')
+    } catch (err) {
+      throw err
+    }
+  }
+  
+function formLogin(req, res) {
+    const isLogin = req.session.isLogin
+
+    if(isLogin){
+        req.flash('danger', "Anda sudah masuk ke akun anda!")
+        return res.redirect('/')
+    }
+
+    res.render('login', {isLogin: req.session.isLogin,
+        user: req.session.user})
+}
+
+async function userLogin(req, res) {
+    try {
+      const { email, password } = req.body
+      const query = `SELECT * FROM users WHERE email = '${email}'`
+      let obj = await sequelize.query(query, { type: QueryTypes.SELECT })
+  
+      if(!obj.length) {
+        req.flash('danger', "user has not been registered")
+        return res.redirect('/login')
+      }
+  
+      await bcrypt.compare(password, obj[0].password, (err, result) => {
+        if(!result) {
+          req.flash('danger', 'password wrong')
+          return res.redirect('/login')
+        } else {
+          req.session.isLogin = true,
+          req.session.user = obj[0].name
+          req.flash('success', ' login success')
+          return res.redirect('/')
+        }
+      })
+  
+    } catch (err) {
+      throw err
+    }
+}
+
+function userLogout (req,res) {
+    req.session.isLogin = false
+    req.session.name = ""
+    req.flash('success', 'Anda telah logout dari akun anda')
+    res.redirect('/');
 }
 
 function waktu (awal,akhir){

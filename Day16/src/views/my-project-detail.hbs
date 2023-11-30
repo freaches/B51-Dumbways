@@ -76,15 +76,15 @@
           <div class="rounded bg-light p-5">
               <h1 class="text-center mb-4">{{content.title}} || {{content.id}}</h1>
               <div class="d-flex flex-wrap mb-5 justify-content-evenly">
-                  <img src="/{{content.image}}" alt="makan" class="w-50"/>
-                  <div>
+                  <img src="/{{content.image}}" alt="makan" class="w-50 object-fit-scale" style="height: 400px"/>
+                  <div class="align-self-center" style="width: 30%;">
                       <h2>Duration</h2>
                       <div class="mb-4">
                           <i class="fa-regular fa-calendar-days">&nbsp {{content.start_date}} - {{content.end_date}}</i><br><br>
                           <i class="fa-regular fa-clock">&nbsp {{content.duration}}</i>
                       </div>
                       <h2>Technologies</h2>
-                      <div class="d-flex flex-wrap justify-content-between" style="width: 60%;">
+                      <div class="d-flex flex-wrap justify-content-between w-100">
                         {{{content.techs}}}
                       </div>
                   </div>

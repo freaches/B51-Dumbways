@@ -139,7 +139,7 @@
             <div class="p-5 d-flex flex-wrap justify-content-around" id="contents">
                 {{#each content}}
                 <div class="w-25 bg-secondary-subtle p-3 rounded mx-2 mb-5">
-                    <img src="/{{this.image}}" alt="makan" class="w-100"/>
+                    <img src="/{{this.image}}" alt="makan" class="w-100 object-fit-scale" style="height: 200px;"/>
                     <a href="/my-project-detail/{{this.id}}" target="_blank" class="text-black fs-4 text-decoration-none">{{this.title}}</a>
                     <p style="font-size: 15px; color: grey;">Durasi : {{this.duration}}</p>
                     <p class="fw-lighter fst-italic fs-6">Author : {{this.author}}</p>

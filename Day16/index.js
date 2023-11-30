@@ -40,7 +40,7 @@ app.use(session({
 app.get('/', home)
 app.get('/testimonial',testimonial)
 app.get('/contact-me',contactMe)
-app.get('/my-project-detail/:id',myProject)
+app.get('/my-project-detail/:id',projectDetail)
 
 app.get('/add-my-project',formMyProject)
 app.post('/add-my-project',upload.single('image'),addMyProject)
@@ -98,7 +98,7 @@ function contactMe (req, res) {
         user: req.session.user})
 }
 
-async function myProject (req, res) {
+async function projectDetail (req, res) {
     try{
         const { id } = req.params
         
@@ -424,13 +424,13 @@ function viewIconHbs (icon) {
 
     for (i=0; i<icon.length; i++){
         if (icon[i] == "node-js") {
-            codeIcon += `<i class="fa-brands fa-node-js">&nbsp Node js</i>`
+            codeIcon += `<i class="fa-brands fa-node-js mb-3 w-50">&nbsp Node js</i>`
         } else if (icon[i] == "react-js") {
-            codeIcon += `<i class="fa-brands fa-react">&nbsp React js</i>`
+            codeIcon += `<i class="fa-brands fa-react mb-3 w-50">&nbsp React js</i>`
         } else if (icon[i] == "next-js") {
-            codeIcon += `<i class="fa-brands fa-vuejs">&nbsp Next js</i>`
+            codeIcon += `<i class="fa-brands fa-vuejs mb-3 w-50">&nbsp Next js</i>`
         } else if (icon[i] == "type-script") {
-            codeIcon += `<i class="fa-brands fa-js">&nbsp Type Script</i>`  
+            codeIcon += `<i class="fa-brands fa-js mb-3 w-50">&nbsp Type Script</i>`  
         }
     }
 

@@ -26,11 +26,11 @@ async function showTestimonial() {
   
       response.forEach(item => {
         testimonialForHtml += `
-            <div class="w-25 bg-secondary-subtle p-3 rounded text-end m-3">
-                    <img src=${item.image} class="img-fluid mb-3"/>
-                    <p class="fst-italic">"${item.comment}"</p>
-                    <p class="fw-bold">- ${item.name}</p>
-                    <p> ${item.rating} <i class="fa-solid fa-star "></i></p>
+            <div class="w-25 bg-secondary-subtle p-3 rounded text-center m-3">
+                    <img src=${item.image} class="object-fit-cover mb-3" style="height:200px; max-width:100%"/>
+                    <p class="fst-italic text-end">"${item.comment}"</p>
+                    <p class="fw-bold text-end">- ${item.name}</p>
+                    <p class="text-end"> ${item.rating} <i class="fa-solid fa-star "></i></p>
                 </div>
         `
       })
@@ -53,12 +53,12 @@ async function showTestimonial() {
       } else {
         dataFiltered.forEach(item => {
           testimonialForHtml += `
-            <div class="w-25 bg-secondary-subtle p-3 rounded text-end">
-                    <img src=${item.image} class="img-fluid mb-3"/>
-                    <p class="fst-italic">"${item.comment}"</p>
-                    <p class="fw-bold">- ${item.name}</p>
-                    <p> ${item.rating} <i class="fa-solid fa-star "></i></p>
-                </div>
+          <div class="w-25 bg-secondary-subtle p-3 rounded text-center m-3">
+            <img src=${item.image} class="object-fit-cover mb-3" style="height:200px; max-width:100%"/>
+            <p class="fst-italic text-end">"${item.comment}"</p>
+            <p class="fw-bold text-end">- ${item.name}</p>
+            <p class="text-end"> ${item.rating} <i class="fa-solid fa-star "></i></p>
+          </div>
           `
         })
       }

@@ -295,21 +295,39 @@ async function addUser(req, res) {
     }
 
     const queryEmail = `SELECT * FROM users WHERE email = '${email}'`
-    let obj = await sequelize.query(queryEmail, { type: QueryTypes.SELECT })
+    let objEmail = await sequelize.query(queryEmail, { type: QueryTypes.SELECT })
 
-    if(obj.length){
+    if(objEmail.length){
         req.flash('danger', "Email sudah terpakai! Masukan email yang lain")
         return res.redirect('/register')
     }
 
 
-    await bcrypt.hash(password, 10, (err, hashPassword) => {
+    // await bcrypt.hash(password, 10, (err, hashPassword) => {
+    //     const query = `INSERT INTO users (name, email, password, "createdAt", "updatedAt") VALUES ('${name}', '${email}', '${hashPassword}', NOW(), NOW())`    
+    //     sequelize.query(query)})
+    bcrypt.hash(password, 10, async (err, hash) => {
+        if (err) {
+            console.error("Password failed to be encrypted!")
+            req.flash('danger', 'Register failed : password failed to be encrypted!')
+            return res.redirect('/register')
+        }
+
+        console.log("Hash result :", hash)
+        const query = `INSERT INTO users (name, email, password, "createdAt", "updatedAt") VALUES ('${name}', '${email}', '${hash}', NOW(), NOW())`    
+
+        await sequelize.query(query, { type: QueryTypes.INSERT })
+
+        const queryLogin = `SELECT * FROM users WHERE email = '${email}'`
+        let obj = await sequelize.query(queryLogin, { type: QueryTypes.SELECT })
+        console.log(obj)
+        req.session.isLogin = true,
+        req.session.user = obj[0].name
+        req.session.idUser = obj[0].id
     
-    const query = `INSERT INTO users (name, email, password, "createdAt", "updatedAt") VALUES ('${name}', '${email}', '${hashPassword}', NOW(), NOW())`    
-    sequelize.query(query)})
-    
-    req.flash('success', 'Register Berhasil! Silakan Login')
-    res.redirect('/login')
+        req.flash('success', 'Register Berhasil! Selamat Datang!')
+        res.redirect('/')
+    })
     } catch (err) {
       throw err
     }

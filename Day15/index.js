@@ -64,7 +64,7 @@ app.listen(port, () => {
 
 async function home (req, res) {
     try{
-        const query = `SELECT * FROM projects`
+        const query = `SELECT * FROM projects ORDER BY id DESC`
         let obj = await sequelize.query(query, { type: QueryTypes.SELECT })
 
         obj.forEach(item => {
@@ -74,11 +74,9 @@ async function home (req, res) {
             item.isLogin = req.session.isLogin
         })
 
-        let sortedObj = obj.sort((c1, c2) => (c1.id < c2.id) ? 1 : (c1.id > c2.id) ? -1 : 0);
+        console.log(obj)
 
-        console.log(sortedObj)
-
-        res.render('index' , {content : sortedObj,
+        res.render('index' , {content : obj,
             isLogin: req.session.isLogin,
             user: req.session.user})
     } catch(err) {
@@ -287,12 +285,14 @@ async function addUser(req, res) {
 
 
     await bcrypt.hash(password, 10, (err, hashPassword) => {
+        const query = `INSERT INTO users (name, email, password, "createdAt", "updatedAt") VALUES ('${name}', '${email}', '${hashPassword}', NOW(), NOW())`    
+        sequelize.query(query)})
+
+    req.session.isLogin = true,
+    req.session.user = name
     
-    const query = `INSERT INTO users (name, email, password, "createdAt", "updatedAt") VALUES ('${name}', '${email}', '${hashPassword}', NOW(), NOW())`    
-    sequelize.query(query)})
-    
-    req.flash('success', 'Register Berhasil! Silakan Login')
-    res.redirect('/login')
+    req.flash('success', 'Register Berhasil! Selamat Datang!')
+    res.redirect('/')
     } catch (err) {
       throw err
     }

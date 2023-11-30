@@ -67,22 +67,42 @@ app.listen(port, () => {
 
 async function home (req, res) {
     try{
+        let isLogin= req.session.isLogin
+        let idUser = req.session.idUser
+        let user = req.session.user
+
+        let obj
+        
+        if(!req.session.isLogin){
         const query = `SELECT projects.id, title, description, start_date, end_date, technologies, image, users.name AS author FROM projects LEFT JOIN users ON projects.author = users.id ORDER BY projects.id DESC`;
 
-        let obj = await sequelize.query(query, { type: QueryTypes.SELECT })
+        obj = await sequelize.query(query, { type: QueryTypes.SELECT })
 
         obj.forEach(item => {
             item.duration = waktu(item.start_date, item.end_date)
             item.techs = viewIcon(item.technologies)  
             item.description = cardDesc(item.description)
-            item.isLogin = req.session.isLogin
-        })
+            item.isLogin = isLogin
+            item.user = user
+        })} else {
+        
+        const query = `SELECT projects.id, title, description, start_date, end_date, technologies, image, users.name AS author FROM projects LEFT JOIN users ON projects.author = users.id WHERE author =${idUser} ORDER BY projects.id DESC`;
+
+        obj = await sequelize.query(query, { type: QueryTypes.SELECT })
+
+        obj.forEach(item => {
+            item.duration = waktu(item.start_date, item.end_date)
+            item.techs = viewIcon(item.technologies)  
+            item.description = cardDesc(item.description)
+            item.isLogin = isLogin
+            item.user = user
+        })}
 
         console.log(obj)
 
         res.render('index' , {content : obj,
-            isLogin: req.session.isLogin,
-            user: req.session.user})
+            isLogin,
+            user})
     } catch(err) {
         console.log(err)
     }
@@ -138,6 +158,19 @@ async function addMyProject (req, res) {
     try{
     
     let { title, start_date, end_date, description, node, react, next, script} = req.body
+
+    if (node == undefined && react == undefined && next == undefined && script == undefined || !req.file || title == "" || start_date =="" || end_date =="" || description == ""){
+        const dataTemporary = {title,start_date,end_date,description,node,react,next,script}
+        req.flash('danger', "Tolong isikan data yang masih kosong!!")
+        return res.render('add-my-project',{data : dataTemporary,isLogin :req.session.isLogin,
+            user: req.session.user})
+    } else if (new Date (start_date) > new Date (end_date)){
+        const dataTemporary = {title,start_date,end_date,description,node,react,next,script}
+        req.flash('danger', "Tanggal yang diinput salah! Tolong isikan data tanggal dengan benar")
+        return res.render('add-my-project',{data : dataTemporary,isLogin :req.session.isLogin,
+            user: req.session.user})
+    }
+
     
     const idUser = req.session.idUser
     const image = req.file.filename
@@ -151,7 +184,7 @@ async function addMyProject (req, res) {
     console.log(next)
     console.log(script)
     console.log(image)
-
+    console.log(idUser)
     let techs = {node,react,next,script}
     let technologies = techArray(techs)
     console.log(technologies)
@@ -184,15 +217,17 @@ async function editProjectView (req, res) {
         const { id } = req.params
 
         const isLogin = req.session.isLogin
+        const idUser = req.session.idUser
 
-        if(!isLogin){
+        
+        const query = `SELECT projects.id, title, description, image, start_date, end_date, technologies, projects.author AS "authorId", users.name AS author FROM projects LEFT JOIN users ON projects.author = users.id WHERE projects.id =${id}`
+        
+        let obj = await sequelize.query(query, { type: QueryTypes.SELECT })
+        
+        if(isLogin != false && idUser != obj[0].authorId){
             req.flash('danger', "Anda tidak mempunyai akses ini!")
             return res.redirect('/')
         }
-
-        const query = `SELECT projects.id, title, description, image, start_date, end_date, technologies, users.name AS author FROM projects LEFT JOIN users ON projects.author = users.id WHERE projects.id =${id}`
-
-        let obj = await sequelize.query(query, { type: QueryTypes.SELECT })
 
         if(!obj.length) {
             req.flash('danger', "Data Not Found!!")
@@ -232,10 +267,24 @@ async function editProjectView (req, res) {
 async function editProject (req, res) {
     try{
         const { id } = req.params
+        
+        let { title, start_date, end_date, description, node, react, next, script} = req.body
+
+        if (node == undefined && react == undefined && next == undefined && script == undefined || title == "" || start_date =="" || end_date =="" || description == ""){
+            const dataTemporary = {title,start_date,end_date,description,node,react,next,script}
+            req.flash('danger', "Tolong isikan data yang masih kosong!!")
+            return res.render('edit-my-project',{data : dataTemporary,isLogin :req.session.isLogin,
+                user: req.session.user})
+        }else if (new Date (start_date) > new Date (end_date)){
+            const dataTemporary = {title,start_date,end_date,description,node,react,next,script}
+            req.flash('danger', "Tanggal yang diinput salah! Tolong isikan data tanggal dengan benar")
+            return res.render('edit-my-project',{data : dataTemporary,isLogin :req.session.isLogin,
+                user: req.session.user})
+        }
 
         let image = ""
         
-       if (req.file) {
+        if (req.file) {
             image = req.file.filename
         } else if(!image){
             const query = `SELECT projects.id, title, description, image, start_date, end_date, technologies, users.name AS author FROM projects LEFT JOIN users ON projects.author = users.id WHERE projects.id =${id}`
@@ -243,8 +292,6 @@ async function editProject (req, res) {
             image = obj[0].image
         }
         
-        
-        let { title, start_date, end_date, description, node, react, next, script} = req.body
         console.log(title)
         console.log(start_date)
         console.log(end_date)
@@ -289,9 +336,10 @@ async function addUser(req, res) {
     try {
     const { name, email, password } = req.body
 
-    if(req.body.name == "" || req.body.email == "" || req.body.password == ""){
-        req.flash('danger', 'Data Kosong! Tolong isikan data ada pada form Register!')
-        return res.redirect('/register')
+    if(name == "" || email == "" || password == ""){
+        req.flash('danger', 'Data Kosong! Tolong isikan data yang kosong pada form Register!')
+        let register = {name, email}
+        return res.render('register', {data:register})
     }
 
     const queryEmail = `SELECT * FROM users WHERE email = '${email}'`
@@ -302,10 +350,6 @@ async function addUser(req, res) {
         return res.redirect('/register')
     }
 
-
-    // await bcrypt.hash(password, 10, (err, hashPassword) => {
-    //     const query = `INSERT INTO users (name, email, password, "createdAt", "updatedAt") VALUES ('${name}', '${email}', '${hashPassword}', NOW(), NOW())`    
-    //     sequelize.query(query)})
     bcrypt.hash(password, 10, async (err, hash) => {
         if (err) {
             console.error("Password failed to be encrypted!")
@@ -352,19 +396,19 @@ async function userLogin(req, res) {
       let obj = await sequelize.query(query, { type: QueryTypes.SELECT })
   
       if(!obj.length) {
-        req.flash('danger', "user has not been registered")
+        req.flash('danger', "Email ini belum terdaftar! Silakan masukan email lain atau registrasi terlebih dahulu!")
         return res.redirect('/login')
       }
   
       await bcrypt.compare(password, obj[0].password, (err, result) => {
         if(!result) {
-          req.flash('danger', 'password wrong')
-          return res.redirect('/login')
+          req.flash('danger', 'Password anda salah, silakan masukan lagi password anda')
+          return res.render('login' , {email})
         } else {
           req.session.isLogin = true,
           req.session.user = obj[0].name
           req.session.idUser = obj[0].id
-          req.flash('success', ' login success')
+          req.flash('success', 'Login telah berhasil! Selamat datang')
           return res.redirect('/')
         }
       })

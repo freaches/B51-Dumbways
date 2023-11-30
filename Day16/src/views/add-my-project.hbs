@@ -46,7 +46,7 @@
                   </li>
                 </ul>
                  <div class="d-flex justify-content-end me-3">
-                    <ul class="navbar-nav me-auto mb-2 ms-5 mb-lg-0">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         {{#if isLogin}}
                         <li class="nav-item">
                             <a class="nav-link text-danger active fw-semibold" href="#">Hallo, {{user}}</a>
@@ -58,7 +58,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/register">Register</a>
                         </li>
-                        <li class="nav-item ms-3">
+                        <li class="nav-item">
                             <a class="nav-link text-danger active fw-semibold" href="/login">Login</a>
                         </li>
                         {{/if}}
@@ -72,48 +72,54 @@
             </div>
         </nav>
 
+        {{#if messages.danger}}
+            <div class="alert alert-danger text-center" role="alert">
+        {{messages.danger}}
+            </div>
+        {{/if}}
+
         <div class="container mx-auto mt-4">
           <h2 class="text-center">Add My Project</h1>
         </div>
 
         <form class="container mx-auto mt-5 w-50" method="post" action="/add-my-project" enctype="multipart/form-data">
           <div class="mb-3">
-            <label for="my-project" class="form-label">My Project</label>
-            <input type="text" name="title" class="form-control" id="my-project">
+            <label for="my-project" class="form-label">Name Project</label>
+            <input type="text" name="title" class="form-control" id="my-project" value="{{data.title}}">
           </div>
           <div class="mb-3 d-flex flex-wrap">
             <div class="w-50">
                 <label for="awal" class="form-label">Start Date</label>
-                <input type="date" name="start_date" id="awal" class="form-control"/>
+                <input type="date" name="start_date" id="awal" class="form-control" value="{{data.start_date}}"/>
             </div>
             <div class="w-50">
                 <label for="akhir" class="form-label">End Date</label>
-                <input type="date" name="end_date" id="akhir" class="form-control"/>
+                <input type="date" name="end_date" id="akhir" class="form-control" value="{{data.end_date}}"/>
             </div>
           </div>
           <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <textarea class="form-control h-25" name="description" aria-label="With textarea" style="resize: none;" id="description"></textarea>
+            <textarea class="form-control h-25" name="description" aria-label="With textarea" style="resize: none;" id="description">{{data.description}}</textarea>
           </div>
           <label class="form-label">Technologies</label>
           <div class="mb-3 d-flex flex-wrap">
             <div class="w-50">
               <div class="form-check">
-                <input type="checkbox" name="node" class="form-check-input" id="node-js" value="node-js">
+                <input type="checkbox" name="node" class="form-check-input" id="node-js" value="node-js" {{#if data.node}} checked {{/if}}>
                 <label class="form-check-label" for="node-js">Node Js</label>
               </div>
               <div class="form-check">
-                <input type="checkbox" name="react" class="form-check-input" id="react-js" value="react-js">
+                <input type="checkbox" name="react" class="form-check-input" id="react-js" value="react-js" {{#if data.react}} checked {{/if}}>
                 <label class="form-check-label" for="react-js">React Js</label>
               </div>
             </div>
             <div class="w-50">
               <div class="form-check">
-                <input type="checkbox" name="next" class="form-check-input" id="next-js" value="next-js">
+                <input type="checkbox" name="next" class="form-check-input" id="next-js" value="next-js" {{#if data.next}} checked {{/if}}>
                 <label class="form-check-label" for="next-js">Next Js</label>
               </div>
               <div class="form-check"> 
-                <input type="checkbox" name="script" class="form-check-input" id="typeScript" value="type-script">
+                <input type="checkbox" name="script" class="form-check-input" id="typeScript" value="type-script" {{#if data.script}} checked {{/if}}>
                 <label class="form-check-label" for="typeScript">Type Script</label>
               </div>
             </div>

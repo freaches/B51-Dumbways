@@ -46,7 +46,7 @@
                   </li>
                 </ul>
                  <div class="d-flex justify-content-end me-3">
-                    <ul class="navbar-nav me-auto mb-2 ms-5 mb-lg-0">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         {{#if isLogin}}
                         <li class="nav-item">
                             <a class="nav-link text-danger active fw-semibold" href="#">Hallo, {{user}}</a>
@@ -58,7 +58,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/register">Register</a>
                         </li>
-                        <li class="nav-item ms-3">
+                        <li class="nav-item">
                             <a class="nav-link text-danger active fw-semibold" href="/login">Login</a>
                         </li>
                         {{/if}}
@@ -71,6 +71,12 @@
               </div>
             </div>
         </nav>
+
+        {{#if messages.danger}}
+            <div class="alert alert-danger text-center" role="alert">
+        {{messages.danger}}
+            </div>
+        {{/if}}
 
         <div class="container mx-auto mt-4">
           <h2 class="text-center">Edit My Project</h1>

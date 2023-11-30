@@ -47,8 +47,8 @@
                 </ul>
                 
                 <div class="d-flex justify-content-end me-3">
-                    <ul class="navbar-nav me-auto mb-2 ms-5 mb-lg-0">
-                        <li class="nav-item ms-3">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
                           <a class="nav-link text-danger active fw-semibold" href="/login">Login</a>
                         </li>
                     </ul>
@@ -73,11 +73,11 @@
                 <form method="post" action="/register">
                 <div class="mb-3">
                     <label for="username" class="form-label">Name</label>
-                    <input type="text" name="name" class="form-control" id="username" aria-describedby="emailHelp" />
+                    <input type="text" name="name" class="form-control" id="username" aria-describedby="emailHelp" value="{{data.name}}"/>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" />
+                    <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp" value="{{data.email}}" />
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>

@@ -45,7 +45,7 @@
                   </li>
                 </ul>
                  <div class="d-flex justify-content-end me-3">
-                    <ul class="navbar-nav me-auto mb-2 ms-5 mb-lg-0">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         {{#if isLogin}}
                         <li class="nav-item">
                             <a class="nav-link text-danger active fw-semibold" href="#">Hallo, {{user}}</a>
@@ -57,7 +57,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/register">Register</a>
                         </li>
-                        <li class="nav-item ms-3">
+                        <li class="nav-item">
                             <a class="nav-link text-danger active fw-semibold" href="/login">Login</a>
                         </li>
                         {{/if}}
@@ -149,7 +149,7 @@
                     <div class="d-flex justify-content-around fs-4 mb-3">
                     {{{this.techs}}}
                     </div>
-                    {{#if isLogin}}
+                    {{#if isLogin}} 
                     <div class="d-flex justify-content-around mt-2">
                         <form method="get" action="/edit-project/{{this.id}}">
                             <button class="btn rounded text-light px-4" style="background-color: #000033;" onclick=" return confirmation(this.form)">Edit</button>

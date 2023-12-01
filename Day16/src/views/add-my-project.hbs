@@ -82,7 +82,7 @@
           <h2 class="text-center">Add My Project</h1>
         </div>
 
-        <form class="container mx-auto mt-5 w-50" method="post" action="/add-my-project" enctype="multipart/form-data">
+        <form class="container mx-auto mt-5 w-50 mb-5" method="post" action="/add-my-project" enctype="multipart/form-data">
           <div class="mb-3">
             <label for="my-project" class="form-label">Name Project</label>
             <input type="text" name="title" class="form-control" id="my-project" value="{{data.title}}">
@@ -101,7 +101,7 @@
             <label for="description" class="form-label">Description</label>
             <textarea class="form-control h-25" name="description" aria-label="With textarea" style="resize: none;" id="description">{{data.description}}</textarea>
           </div>
-          <label class="form-label">Technologies</label>
+          <label class="form-label">Technologies*</label>
           <div class="mb-3 d-flex flex-wrap">
             <div class="w-50">
               <div class="form-check">
@@ -131,6 +131,8 @@
           <div class="d-flex justify-content-end mt-3 mb-5">
             <button type="submit" class="btn btn-primary">Post Project</button>
           </div>
+
+        <p class="fw-light fst-italic fs-6">*wajib pilih salah satu</p>
         </form>
 
     </body>

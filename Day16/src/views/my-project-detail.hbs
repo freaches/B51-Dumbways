@@ -24,51 +24,49 @@
 
     <body>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container">
-              <a class="navbar-brand me-5" href="/">
-                <img src="/Image/logo.png" alt="logo"/>   
+          <div class="container">
+              <a class="navbar-brand" href="/">
+                  <img src="/Image/logo.png" alt="logo"/>   
               </a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+                  <span class="navbar-toggler-icon"></span>
               </button>
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                  <li class="nav-item me-2">
-                    <a class="nav-link active" href="/">Home</a>
-                  </li>
-                 {{#if isLogin}}
-                  <li class="nav-item me-2">
-                    <a class="nav-link" href="/add-my-project">Add My Project</a>
-                  </li>
-                  {{/if}}
-                  <li class="nav-item me-2">
-                    <a class="nav-link" href="/testimonial">Testimonial</a>
-                  </li>
-                </ul>
-                 <div class="d-flex justify-content-end me-3">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        {{#if isLogin}}
-                        <li class="nav-item">
-                            <a class="nav-link text-danger active fw-semibold" href="#">Hallo, {{user}}</a>
-                        </li>
-                        <li class="nav-item ms-3">
-                            <a class="nav-link" href="/logout">Logout</a>
-                        </li>
-                        {{else}}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/register">Register</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-danger active fw-semibold" href="/login">Login</a>
-                        </li>
-                        {{/if}}
+                  <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-center">
+                      <li class="nav-item">
+                          <a class="nav-link active" href="/">Home</a>
+                      </li>
+                      {{#if isLogin}}
+                      <li class="nav-item">
+                          <a class="nav-link" href="/add-my-project">Add My Project</a>
+                      </li>
+                      {{/if}}
+                      <li class="nav-item">
+                          <a class="nav-link" href="/testimonial">Testimonial</a>
+                      </li>
+                  </ul>
+                
+                  <ul class="navbar-nav mb-2 mb-lg-0 d-flex justify-content-end me-2 text-center">
+                      {{#if isLogin}}
+                      <li class="nav-item">
+                          <a class="nav-link text-danger active fw-semibold" href="#">Hallo, {{user}}</a>
+                      </li>
+                      <li class="nav-item ms-3">
+                          <a class="nav-link" href="/logout">Logout</a>
+                      </li>
+                      {{else}}
+                      <li class="nav-item ms-2">
+                          <a class="nav-link" href="/register">Register</a>
+                      </li>
+                      <li class="nav-item ms-1">
+                          <a class="nav-link text-danger active fw-semibold" href="/login">Login</a>
+                      </li>
+                      {{/if}}
+                      <li class="nav-item ms-2">
+                          <a class="btn btn-danger" href="/contact-me">Contact Me</a>
+                       </li>
                     </ul>
                 </div>
-                
-                <div class="d-flex" role="search">
-                  <a class="btn btn-danger" href="/contact-me">Contact Me</a>
-                </div>
-              </div>
             </div>
         </nav>
 
